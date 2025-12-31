@@ -1,0 +1,41 @@
+services:
+  api:
+    build:
+      context: ../../apps/api
+      dockerfile: ../../infra/docker/api/Dockerfile
+    container_name: zairly-api
+    ports:
+      - "8000:8000"
+    volumes:
+      - ../../apps/api:/app
+      - ../../packages:/packages
+    environment:
+      - PROJECT_NAME=Zairly API
+      - VERSION=0.1.0
+      - ALLOWED_ORIGINS=["http://localhost:3000"]
+    command: poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    networks:
+      - zairly-network
+
+  web:
+    build:
+      context: ../../apps/web
+      dockerfile: ../../infra/docker/web/Dockerfile
+    container_name: zairly-web
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../../apps/web:/app
+      - /app/node_modules
+      - /app/.next
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000
+    command: npm run dev
+    networks:
+      - zairly-network
+    depends_on:
+      - api
+
+networks:
+  zairly-network:
+    driver: bridge

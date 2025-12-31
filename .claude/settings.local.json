@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(poetry add:*)",
+      "Bash(poetry run python:*)",
+      "Bash(poetry show:*)",
+      "Bash(pyenv local:*)",
+      "Bash(pyenv versions:*)",
+      "Bash(pyenv which:*)",
+      "Bash(where:*)",
+      "Bash(mv:*)"
+    ]
+  }
+}
